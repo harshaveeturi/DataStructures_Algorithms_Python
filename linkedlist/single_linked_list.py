@@ -29,6 +29,8 @@ class SingleLinkedList:
 
     def print_elements(self):
         '''this functions prints all the elements present in the single linked list'''
+        if self.head is None:
+            return "Single Linked list is empty to print any elements!!"
         singlelinkedlist_string=''
         itr=self.head
         while itr:
@@ -38,12 +40,15 @@ class SingleLinkedList:
 
     def count_elements(self):
         '''this functions counts and returns the number of elements presnet in the single linked list'''
-        count=1
-        itr=self.head
-        while itr.next:
-            count+=1
+        if self.head is not None:
+            count=1
+            itr=self.head
+            while itr.next:
+                count+=1
             itr=itr.next
-        return count
+            return count
+        else:
+            return 0
     
     def search_element(self,search_element):
         '''this function checks whether the element is present in the single linked list'''
@@ -71,29 +76,58 @@ class SingleLinkedList:
                 count+=1   
                 itr=itr.next
             
+    def insert_after_value(self, data_after, data_to_insert):
+        '''this function inserts an element after an provided element'''
+        if self.head is None:
+            raise Exception("there is only one element in the single linked list")
+        else:
+            itr=self.head
+            while itr.next:
+                if itr.element==data_after:
+                    new_node=Node(data_to_insert)
+                    new_node.next=itr.next
+                    itr.next=new_node
+                itr=itr.next
 
-                
+
+    def insert_values(self,list_of_elements):
+        '''this function clears all the elements present in the list and creates a new list of elements in the single linked list'''
+        self.head=None
+        for element in list_of_elements:
+            self.insert_at_ending(element)
+
+
+    def remove_by_value(self,search_element):
+        '''this function looks for a particular element and removes the element from the single linked list '''
+        if self.head is None:
+            return "Linked list is empty to remove an element"
+
+        elif self.head.element==search_element:
+            self.head=self.head.next
+        else:
+            itr=self.head
+            while itr.next:
+                if itr.next.element==search_element and itr is not None:
+                    itr.next=itr.next.next
+                    break
+                itr=itr.next
+        
+
+
 if __name__=='__main__':
     singlelinkedlist=SingleLinkedList()
-    singlelinkedlist.insert_at_beginning(4)
-    singlelinkedlist.insert_at_beginning(3)
-    singlelinkedlist.insert_at_beginning(2)
-    singlelinkedlist.insert_at_beginning(1)
-    singlelinkedlist.insert_at_beginning(0)
-    singlelinkedlist.insert_at_ending(5)
-    singlelinkedlist.insert_at_ending(6)
-    singlelinkedlist.insert_at_ending(7)
-    singlelinkedlist.insert_at_ending(8)
-    singlelinkedlist.insert_at_ending(9)
+    singlelinkedlist.insert_values(["banana","mango","grapes","orange"])
+    singlelinkedlist.insert_after_value("banana","apple")
     print(singlelinkedlist.print_elements())
-    print(f"the number of elements present in the linked list are {singlelinkedlist.count_elements()}")
-    print(singlelinkedlist.search_element(58))
-    print(singlelinkedlist.search_element(4))
-    print(singlelinkedlist.search_element(-1))
-    print(singlelinkedlist.search_element(-13))
-    singlelinkedlist.delete_at_index(5)
+    singlelinkedlist.remove_by_value("apple")
     print(singlelinkedlist.print_elements())
-    singlelinkedlist.delete_at_index(4)
+    singlelinkedlist.remove_by_value("orange")
     print(singlelinkedlist.print_elements())
-    singlelinkedlist.delete_at_index(3)
+    singlelinkedlist.remove_by_value("figs")
+    print(singlelinkedlist.print_elements())
+    singlelinkedlist.remove_by_value("banana")
+    print(singlelinkedlist.print_elements())
+    singlelinkedlist.remove_by_value("mango")
+    print(singlelinkedlist.print_elements())
+    singlelinkedlist.remove_by_value("grapes")
     print(singlelinkedlist.print_elements())
